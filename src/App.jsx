@@ -384,14 +384,30 @@ function TagFilterPill({ tag, active, onToggle }) {
 
 // ─── Work Card ────────────────────────────────────────────────────────────────
 
-function WorkCard({ work, onClick, delay }) {
+function WorkCard({ work, onClick, onDelete, delay }) {
   const [hovered, setHovered] = useState(false)
+  const [confirmingDelete, setConfirmingDelete] = useState(false)
   const tags = work.tags || []
+
+  function handleDeleteClick(e) {
+    e.stopPropagation()
+    setConfirmingDelete(true)
+  }
+
+  function handleConfirmDelete(e) {
+    e.stopPropagation()
+    onDelete?.()
+  }
+
+  function handleCancelDelete(e) {
+    e.stopPropagation()
+    setConfirmingDelete(false)
+  }
 
   return (
     <div
       className="card"
-      onClick={onClick}
+      onClick={confirmingDelete ? undefined : onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -402,24 +418,88 @@ function WorkCard({ work, onClick, delay }) {
         boxShadow: hovered
           ? '3px 3px 18px rgba(45,90,39,0.14), inset 0 0 0 1px rgba(232,130,154,0.12)'
           : '2px 2px 8px rgba(45,90,39,0.07)',
-        cursor: 'pointer',
+        cursor: confirmingDelete ? 'default' : 'pointer',
         overflow: 'hidden',
         padding: '16px 18px',
         position: 'relative',
-        transform: hovered ? 'translateY(-2px)' : 'none',
+        transform: hovered && !confirmingDelete ? 'translateY(-2px)' : 'none',
         transition: 'all 0.2s ease',
       }}
     >
       {/* Corner lotus bud ornament */}
-      <div style={{
-        position: 'absolute',
-        right: 8,
-        top: 8,
-        opacity: hovered ? 0.9 : 0.45,
-        transition: 'opacity 0.2s',
-      }}>
-        <LotusBud size={20} />
-      </div>
+      {!confirmingDelete && (
+        <div style={{
+          position: 'absolute',
+          right: 8,
+          top: 8,
+          opacity: hovered ? 0.9 : 0.45,
+          transition: 'opacity 0.2s',
+          pointerEvents: 'none',
+        }}>
+          <LotusBud size={20} />
+        </div>
+      )}
+
+      {/* delete button */}
+      {!confirmingDelete && (
+        <button
+          onClick={handleDeleteClick}
+          style={{
+            alignItems: 'center',
+            background: 'none',
+            border: 'none',
+            borderRadius: '50%',
+            color: '#E8829A',
+            cursor: 'pointer',
+            display: 'flex',
+            fontSize: 15,
+            height: 22,
+            justifyContent: 'center',
+            lineHeight: 1,
+            opacity: hovered ? 0.5 : 0,
+            padding: 0,
+            position: 'absolute',
+            left: 8,
+            top: 8,
+            transition: 'opacity 0.2s, color 0.2s',
+            width: 22,
+            zIndex: 2,
+          }}
+          onMouseEnter={e => { e.currentTarget.style.opacity = 1; e.currentTarget.style.color = '#B05070' }}
+          onMouseLeave={e => { e.currentTarget.style.opacity = hovered ? '0.5' : '0'; e.currentTarget.style.color = '#E8829A' }}
+          title="削除"
+        >×</button>
+      )}
+
+      {/* delete confirmation overlay */}
+      {confirmingDelete && (
+        <div style={{
+          alignItems: 'center',
+          background: 'rgba(248,252,246,0.97)',
+          borderRadius: 8,
+          bottom: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 12,
+          justifyContent: 'center',
+          left: 0,
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          zIndex: 10,
+        }}>
+          <p style={{ color: '#2D5A27', fontFamily: 'Georgia, serif', fontSize: 13, margin: 0, textAlign: 'center' }}>
+            この記録を削除しますか？
+          </p>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button onClick={handleCancelDelete} style={S.cancelBtn}>キャンセル</button>
+            <button
+              onClick={handleConfirmDelete}
+              style={{ ...S.saveBtn, background: 'linear-gradient(135deg, #B05070, #8B3050)', borderColor: 'rgba(176,80,112,0.5)' }}
+            >削除する</button>
+          </div>
+        </div>
+      )}
 
       <div style={{ alignItems: 'flex-start', display: 'flex', gap: 8, marginBottom: 8 }}>
         <h2 style={{
@@ -477,6 +557,8 @@ function WorkCard({ work, onClick, delay }) {
 
 // ─── List View ────────────────────────────────────────────────────────────────
 
+const TAG_COLLAPSE_LIMIT = 8
+
 function ListView({ onSelect, onAdd }) {
   const [works, setWorks]               = useState([])
   const [loading, setLoading]           = useState(true)
@@ -484,6 +566,7 @@ function ListView({ onSelect, onAdd }) {
   const [filterType, setFilter]         = useState('all')
   const [filterStatus, setFilterStatus] = useState('all')
   const [selectedTags, setSelectedTags] = useState([])
+  const [tagsExpanded, setTagsExpanded] = useState(false)
 
   useEffect(() => { fetchWorks() }, [])
 
@@ -497,6 +580,11 @@ function ListView({ onSelect, onAdd }) {
     setLoading(false)
     if (error) setError(error.message)
     else setWorks(data || [])
+  }
+
+  async function handleDelete(id) {
+    const { error } = await supabase.from(TABLE).delete().eq('id', id)
+    if (!error) setWorks(prev => prev.filter(w => w.id !== id))
   }
 
   const allTags = useMemo(
@@ -517,26 +605,43 @@ function ListView({ onSelect, onAdd }) {
       prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
     )
 
+  const watchedCount  = works.filter(w => (w.status || '気になる') === '鑑賞済').length
+  const watchingCount = works.filter(w => (w.status || '気になる') === '鑑賞中').length
+
+  const visibleTags = tagsExpanded ? allTags : allTags.slice(0, TAG_COLLAPSE_LIMIT)
+  const hiddenCount = allTags.length - TAG_COLLAPSE_LIMIT
+
   return (
     <div style={{ background: '#F2FAF0', minHeight: '100vh' }}>
       <PageHeader
         title="🪷 鑑賞録"
         action={
-          <button
-            onClick={onAdd}
-            style={{
-              background: 'rgba(232,130,154,0.2)',
-              border: '1px solid rgba(232,130,154,0.55)',
-              borderRadius: 20,
-              color: '#F4E8EC',
-              cursor: 'pointer',
+          <div style={{ alignItems: 'flex-end', display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <button
+              onClick={onAdd}
+              style={{
+                background: 'rgba(232,130,154,0.2)',
+                border: '1px solid rgba(232,130,154,0.55)',
+                borderRadius: 20,
+                color: '#F4E8EC',
+                cursor: 'pointer',
+                fontFamily: 'Georgia, serif',
+                fontSize: 13,
+                letterSpacing: '0.04em',
+                padding: '7px 16px',
+                transition: 'all 0.2s',
+              }}
+            >＋ 記録する</button>
+            <span style={{
+              color: 'rgba(244,184,200,0.9)',
               fontFamily: 'Georgia, serif',
-              fontSize: 13,
+              fontSize: 10,
               letterSpacing: '0.04em',
-              padding: '7px 16px',
-              transition: 'all 0.2s',
-            }}
-          >＋ 記録する</button>
+              whiteSpace: 'nowrap',
+            }}>
+              鑑賞済 {watchedCount}作品 / 鑑賞中 {watchingCount}作品
+            </span>
+          </div>
         }
       />
 
@@ -645,7 +750,7 @@ function ListView({ onSelect, onAdd }) {
             )}
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-            {allTags.map(tag => (
+            {visibleTags.map(tag => (
               <TagFilterPill
                 key={tag}
                 tag={tag}
@@ -653,6 +758,38 @@ function ListView({ onSelect, onAdd }) {
                 onToggle={() => toggleTag(tag)}
               />
             ))}
+            {!tagsExpanded && hiddenCount > 0 && (
+              <button
+                onClick={() => setTagsExpanded(true)}
+                style={{
+                  background: '#F8FCF6',
+                  border: '1px solid rgba(107,168,95,0.45)',
+                  borderRadius: 14,
+                  color: '#4E8A42',
+                  cursor: 'pointer',
+                  fontFamily: 'Georgia, serif',
+                  fontSize: 12,
+                  padding: '4px 14px',
+                  transition: 'all 0.2s ease',
+                }}
+              >＋{hiddenCount}個</button>
+            )}
+            {tagsExpanded && allTags.length > TAG_COLLAPSE_LIMIT && (
+              <button
+                onClick={() => setTagsExpanded(false)}
+                style={{
+                  background: 'rgba(107,168,95,0.08)',
+                  border: '1px solid rgba(107,168,95,0.45)',
+                  borderRadius: 14,
+                  color: '#4E8A42',
+                  cursor: 'pointer',
+                  fontFamily: 'Georgia, serif',
+                  fontSize: 12,
+                  padding: '4px 14px',
+                  transition: 'all 0.2s ease',
+                }}
+              >折りたたむ ▲</button>
+            )}
           </div>
         </div>
       )}
@@ -694,6 +831,7 @@ function ListView({ onSelect, onAdd }) {
               key={work.id}
               work={work}
               onClick={() => onSelect(work)}
+              onDelete={() => handleDelete(work.id)}
               delay={i * 35}
             />
           ))}
