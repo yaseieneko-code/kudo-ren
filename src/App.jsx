@@ -11,34 +11,34 @@ const TYPES = ['小説', '漫画', 'Webtoon', 'アニメ', '映画', 'その他'
 const STATUSES = ['気になる', '鑑賞中', '鑑賞済']
 
 const STATUS_PALETTE = {
-  '気になる': { bg: 'rgba(232,130,154,0.13)', text: '#B05070', border: 'rgba(232,130,154,0.42)', dot: '#E8829A' },
-  '鑑賞中':   { bg: 'rgba(107,168,95,0.13)',  text: '#3D6E35', border: 'rgba(107,168,95,0.42)',  dot: '#6BA85F' },
-  '鑑賞済':   { bg: 'rgba(78,138,66,0.13)',   text: '#2D5A27', border: 'rgba(78,138,66,0.42)',   dot: '#4E8A42' },
+  '気になる': { bg: 'rgba(255,127,178,0.12)', text: '#c85d84', border: 'rgba(255,168,202,0.62)', dot: '#ff7fb2', mark: '♥' },
+  '鑑賞中':   { bg: 'rgba(255,105,153,0.12)', text: '#d34f7e', border: 'rgba(255,153,190,0.62)', dot: '#ff6298', mark: '●' },
+  '鑑賞済':   { bg: 'rgba(255,190,214,0.18)', text: '#c64f7d', border: 'rgba(255,177,209,0.66)', dot: '#ff9bc4', mark: '🎀' },
 }
 
 const TYPE_PALETTE = {
-  '小説':    { bg: 'rgba(232,130,154,0.1)',  text: '#A05070', border: 'rgba(232,130,154,0.32)' },
-  '漫画':    { bg: 'rgba(107,168,95,0.1)',   text: '#3D6E35', border: 'rgba(107,168,95,0.32)'  },
-  'Webtoon': { bg: 'rgba(152,200,140,0.12)', text: '#4A7E42', border: 'rgba(152,200,140,0.38)' },
-  'アニメ':  { bg: 'rgba(244,184,200,0.15)', text: '#C06080', border: 'rgba(244,184,200,0.42)' },
-  '映画':    { bg: 'rgba(60,110,52,0.1)',    text: '#2D5A27', border: 'rgba(60,110,52,0.32)'   },
-  'その他':  { bg: 'rgba(168,208,158,0.12)', text: '#4E8A42', border: 'rgba(168,208,158,0.38)' },
+  '小説':    { bg: 'rgba(255,245,250,0.9)', text: '#c64f7d', border: 'rgba(255,176,209,0.7)' },
+  '漫画':    { bg: 'rgba(255,245,250,0.9)', text: '#c64f7d', border: 'rgba(255,176,209,0.7)' },
+  'Webtoon': { bg: 'rgba(255,245,250,0.9)', text: '#c64f7d', border: 'rgba(255,176,209,0.7)' },
+  'アニメ':  { bg: 'rgba(255,245,250,0.9)', text: '#c64f7d', border: 'rgba(255,176,209,0.7)' },
+  '映画':    { bg: 'rgba(255,245,250,0.9)', text: '#c64f7d', border: 'rgba(255,176,209,0.7)' },
+  'その他':  { bg: 'rgba(255,245,250,0.9)', text: '#c64f7d', border: 'rgba(255,176,209,0.7)' },
 }
 
 // ─── Shared Styles ────────────────────────────────────────────────────────────
 
 const S = {
   sectionCard: {
-    background: '#F8FCF6',
-    border: '1px solid rgba(107,168,95,0.38)',
+    background: 'rgba(255,255,255,0.92)',
+    border: '1px solid rgba(255,182,212,0.55)',
     borderRadius: 6,
-    boxShadow: '2px 2px 12px rgba(45,90,39,0.07), inset 0 0 0 1px rgba(107,168,95,0.07)',
+    boxShadow: '0 10px 26px rgba(255,143,186,0.12), inset 0 0 0 1px rgba(255,222,236,0.55)',
     marginBottom: 16,
     padding: '20px 22px',
   },
   saveBtn: {
-    background: 'linear-gradient(135deg, #E8829A, #C4607A)',
-    border: '1px solid rgba(232,130,154,0.6)',
+    background: 'linear-gradient(135deg, #ff95bd, #f36f9f)',
+    border: '1px solid rgba(255,160,197,0.75)',
     borderRadius: 20,
     color: '#fff',
     cursor: 'pointer',
@@ -50,9 +50,9 @@ const S = {
   },
   cancelBtn: {
     background: 'none',
-    border: '1px solid rgba(107,168,95,0.5)',
+    border: '1px solid rgba(255,169,204,0.7)',
     borderRadius: 20,
-    color: '#4E8A42',
+    color: '#c64f7d',
     cursor: 'pointer',
     fontFamily: 'Georgia, serif',
     fontSize: 14,
@@ -60,10 +60,10 @@ const S = {
     transition: 'all 0.2s',
   },
   fieldInput: {
-    background: '#F8FCF6',
-    border: '1px solid rgba(107,168,95,0.45)',
+    background: 'rgba(255,255,255,0.94)',
+    border: '1px solid rgba(255,182,212,0.72)',
     borderRadius: 4,
-    color: '#2D5A27',
+    color: '#8f4f65',
     fontFamily: 'Georgia, serif',
     fontSize: 14,
     outline: 'none',
@@ -79,44 +79,30 @@ function LotusFlower({ size = 60 }) {
   const s = size
   return (
     <svg width={s} height={s} viewBox="0 0 100 100" fill="none">
-      {/* Water ripple */}
-      <ellipse cx="50" cy="88" rx="30" ry="6" fill="rgba(107,168,95,0.15)" />
-
-      {/* Stem */}
-      <path d="M50 85 Q48 72 50 60" stroke="#6BA85F" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-
-      {/* Left leaf */}
-      <path d="M50 75 Q34 68 28 56 Q38 58 50 68" fill="#7ABD6E" opacity="0.85" />
-      {/* Left leaf vein */}
-      <path d="M50 75 Q38 64 28 56" stroke="#5A9E50" strokeWidth="0.7" fill="none" opacity="0.6" />
-
-      {/* Right leaf */}
-      <path d="M50 75 Q66 68 72 56 Q62 58 50 68" fill="#7ABD6E" opacity="0.85" />
-      {/* Right leaf vein */}
-      <path d="M50 75 Q62 64 72 56" stroke="#5A9E50" strokeWidth="0.7" fill="none" opacity="0.6" />
-
-      {/* Outer petals (5) */}
-      <path d="M50 60 Q38 48 36 32 Q46 40 50 55" fill="#F4B8C8" />
-      <path d="M50 60 Q62 48 64 32 Q54 40 50 55" fill="#F4B8C8" />
-      <path d="M50 60 Q30 52 22 38 Q36 44 50 58" fill="#EFA0B8" />
-      <path d="M50 60 Q70 52 78 38 Q64 44 50 58" fill="#EFA0B8" />
-      <path d="M50 60 Q28 60 18 50 Q32 52 50 62" fill="#F4B8C8" />
-      <path d="M50 60 Q72 60 82 50 Q68 52 50 62" fill="#F4B8C8" />
-
-      {/* Inner petals (3) */}
-      <path d="M50 60 Q42 50 42 38 Q48 45 50 58" fill="#E8829A" />
-      <path d="M50 60 Q58 50 58 38 Q52 45 50 58" fill="#E8829A" />
-      <path d="M50 60 Q50 46 50 34 Q50 46 50 58" fill="#DC6A88" />
-
-      {/* Center */}
-      <circle cx="50" cy="54" r="7" fill="#F9D76E" />
-      <circle cx="50" cy="54" r="4" fill="#F0C040" />
-      {/* Stamen dots */}
-      <circle cx="50" cy="51" r="1.2" fill="#D4A020" />
-      <circle cx="53" cy="53" r="1.2" fill="#D4A020" />
-      <circle cx="47" cy="53" r="1.2" fill="#D4A020" />
-      <circle cx="52" cy="56" r="1.2" fill="#D4A020" />
-      <circle cx="48" cy="56" r="1.2" fill="#D4A020" />
+      <g opacity="0.88">
+        <path d="M25 88 C36 74 48 70 64 66" stroke="#9bb8a8" strokeWidth="2.2" strokeLinecap="round" />
+        <path d="M45 86 C52 74 61 69 76 64" stroke="#9bb8a8" strokeWidth="2.2" strokeLinecap="round" />
+        <path d="M39 77 C27 66 21 54 19 38" stroke="#9bb8a8" strokeWidth="2" strokeLinecap="round" />
+        <path d="M34 67 C22 64 14 59 8 50" fill="#b8d1c7" opacity="0.75" />
+        <path d="M54 72 C67 69 76 62 82 50" fill="#b8d1c7" opacity="0.75" />
+        <path d="M31 80 C22 79 14 74 8 66" fill="#c4d9d0" opacity="0.7" />
+      </g>
+      <g filter="url(#roseGlow)">
+        <circle cx="34" cy="42" r="18" fill="#ffd8e6" />
+        <circle cx="36" cy="42" r="12" fill="#ffb0cd" />
+        <path d="M28 42 C32 33 45 34 45 43 C42 52 29 51 28 42Z" fill="#ff82ad" opacity="0.9" />
+        <path d="M31 40 C36 34 43 38 42 45 C37 50 30 47 31 40Z" fill="#fff0f6" opacity="0.55" />
+        <circle cx="61" cy="55" r="14" fill="#ffe2ec" />
+        <circle cx="62" cy="55" r="9" fill="#ffb8d2" />
+        <path d="M56 55 C59 48 68 49 69 56 C66 63 57 62 56 55Z" fill="#ff8db7" opacity="0.9" />
+        <circle cx="68" cy="34" r="9" fill="#ffd8e6" />
+        <circle cx="69" cy="34" r="5.5" fill="#ff9ec4" />
+      </g>
+      <defs>
+        <filter id="roseGlow" x="0" y="0" width="100" height="100" colorInterpolationFilters="sRGB">
+          <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#ff8fba" floodOpacity="0.28" />
+        </filter>
+      </defs>
     </svg>
   )
 }
@@ -126,13 +112,26 @@ function LotusFlower({ size = 60 }) {
 function LotusBud({ size = 18 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <path d="M12 20 Q10 16 12 10" stroke="#6BA85F" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M12 16 Q8 13 7 9 Q11 11 12 15"  fill="#7ABD6E" opacity="0.8" />
-      <path d="M12 16 Q16 13 17 9 Q13 11 12 15" fill="#7ABD6E" opacity="0.8" />
-      <path d="M12 14 Q9 10 9 5 Q12 9 12 13"  fill="#F4B8C8" />
-      <path d="M12 14 Q15 10 15 5 Q12 9 12 13" fill="#F4B8C8" />
-      <path d="M12 14 Q12 8 12 4 Q12 9 12 13"  fill="#E8829A" />
-      <circle cx="12" cy="13" r="2.5" fill="#F9D76E" />
+      <path d="M12 21 C12 16 13 12 16 8" stroke="#b8cfc4" strokeWidth="1.4" strokeLinecap="round" />
+      <path d="M11 17 C8 15 6 13 5 10 C8 11 10 13 12 16" fill="#bdd8cc" opacity="0.8" />
+      <path d="M13 16 C17 15 19 13 20 10 C17 11 15 13 13 16" fill="#bdd8cc" opacity="0.8" />
+      <circle cx="12" cy="8" r="4.7" fill="#ffb3cf" />
+      <path d="M8 8 C10 4 15 4 16 8 C15 12 9 12 8 8Z" fill="#ff7fac" />
+      <circle cx="12" cy="8" r="1.7" fill="#ffe5ef" />
+    </svg>
+  )
+}
+
+function RibbonBow({ className = '', size = 74 }) {
+  return (
+    <svg className={`ribbon-bow ${className}`} width={size} height={size * 0.58} viewBox="0 0 100 58" fill="none" aria-hidden="true">
+      <path d="M49 27 C34 10 16 1 5 13 C-3 23 8 42 30 38 C38 36 45 32 49 27Z" fill="#ffd0df" stroke="#ff9abc" strokeWidth="2" />
+      <path d="M51 27 C66 10 84 1 95 13 C103 23 92 42 70 38 C62 36 55 32 51 27Z" fill="#ffd0df" stroke="#ff9abc" strokeWidth="2" />
+      <path d="M39 32 C31 42 25 49 17 55 C29 56 40 51 48 38" fill="#ffc0d5" opacity="0.86" />
+      <path d="M61 32 C69 42 75 49 83 55 C71 56 60 51 52 38" fill="#ffc0d5" opacity="0.86" />
+      <rect x="40" y="20" width="20" height="18" rx="5" fill="#ff8db5" stroke="#fff0f6" strokeWidth="2" />
+      <path d="M12 15 C26 16 35 21 45 28" stroke="#fff8fb" strokeWidth="2" opacity="0.7" />
+      <path d="M88 15 C74 16 65 21 55 28" stroke="#fff8fb" strokeWidth="2" opacity="0.7" />
     </svg>
   )
 }
@@ -151,12 +150,12 @@ function Stars({ value = 0, onChange, size = 22 }) {
           onMouseEnter={() => onChange && setHovered(n)}
           onMouseLeave={() => onChange && setHovered(0)}
           style={{
-            color: n <= active ? '#E8829A' : '#C8E0C2',
+            color: n <= active ? '#ff6f9f' : '#f1c8d8',
             cursor: onChange ? 'pointer' : 'default',
             display: 'inline-block',
             fontSize: size,
             lineHeight: 1,
-            textShadow: n <= active ? '0 0 6px rgba(232,130,154,0.4)' : 'none',
+            textShadow: n <= active ? '0 0 8px rgba(255,111,159,0.38)' : 'none',
             transform: hovered === n ? 'scale(1.28)' : 'scale(1)',
             transition: 'all 0.12s',
           }}
@@ -186,7 +185,7 @@ function StatusBadge({ status }) {
       padding: '2px 9px',
       whiteSpace: 'nowrap',
     }}>
-      <span style={{ background: c.dot, borderRadius: '50%', display: 'inline-block', height: 6, width: 6 }} />
+      <span style={{ color: c.dot, display: 'inline-block', fontSize: 10, lineHeight: 1 }}>{c.mark || '●'}</span>
       {s}
     </span>
   )
@@ -207,9 +206,9 @@ function StatusSelector({ value, onChange }) {
             onClick={() => onChange(s)}
             style={{
               background: active ? c.bg : 'transparent',
-              border: `1px solid ${active ? c.border : 'rgba(107,168,95,0.35)'}`,
+              border: `1px solid ${active ? c.border : 'rgba(255,179,210,0.55)'}`,
               borderRadius: 10,
-              color: active ? c.text : '#4E8A42',
+              color: active ? c.text : '#c76d8f',
               cursor: 'pointer',
               fontSize: 12,
               fontFamily: 'Georgia, serif',
@@ -247,15 +246,15 @@ function TypeBadge({ type }) {
 function Divider({ label }) {
   return (
     <div style={{ alignItems: 'center', display: 'flex', gap: 10, margin: '20px 0 12px' }}>
-      <div style={{ background: 'linear-gradient(to right, transparent, rgba(107,168,95,0.45))', flex: 1, height: 1 }} />
+      <div style={{ background: 'linear-gradient(to right, transparent, rgba(255,159,197,0.55))', flex: 1, height: 1 }} />
       <LotusBud size={16} />
       {label && (
-        <span style={{ color: '#6BA85F', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+        <span style={{ color: '#d75b89', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
           {label}
         </span>
       )}
       <LotusBud size={16} />
-      <div style={{ background: 'linear-gradient(to left, transparent, rgba(107,168,95,0.45))', flex: 1, height: 1 }} />
+      <div style={{ background: 'linear-gradient(to left, transparent, rgba(255,159,197,0.55))', flex: 1, height: 1 }} />
     </div>
   )
 }
@@ -266,7 +265,7 @@ function Field({ label, error, children }) {
   return (
     <div style={{ marginBottom: 14 }}>
       <label style={{
-        color: '#4E8A42',
+        color: '#c64f7d',
         display: 'block',
         fontSize: 10,
         letterSpacing: '0.12em',
@@ -275,7 +274,7 @@ function Field({ label, error, children }) {
       }}>{label}</label>
       {children}
       {error && (
-        <div style={{ color: '#E8829A', fontSize: 11, marginTop: 3 }}>{error}</div>
+        <div style={{ color: '#d85a8b', fontSize: 11, marginTop: 3 }}>{error}</div>
       )}
     </div>
   )
@@ -285,39 +284,42 @@ function Field({ label, error, children }) {
 
 function PageHeader({ title, onBack, action }) {
   return (
-    <header style={{
+    <header className="page-header" style={{
       alignItems: 'center',
-      background: 'linear-gradient(135deg, #3A6E30 0%, #5A9A4E 50%, #3A6E30 100%)',
-      borderBottom: '3px solid rgba(232,130,154,0.7)',
-      boxShadow: '0 2px 16px rgba(45,90,39,0.3)',
+      background: 'linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,249,252,0.95))',
+      borderBottom: '1px solid rgba(255,177,209,0.55)',
+      boxShadow: '0 8px 24px rgba(255,146,187,0.12)',
       display: 'flex',
       gap: 12,
-      padding: '14px 24px',
+      minHeight: 128,
+      overflow: 'hidden',
+      padding: '34px 24px 28px',
       position: 'sticky',
       top: 0,
       zIndex: 100,
     }}>
-      {/* Art Nouveau corner — leaf curl left */}
+      <RibbonBow className="header-bow header-bow-left" />
+      <RibbonBow className="header-bow header-bow-right" />
+      <div className="header-roses"><LotusFlower size={118} /></div>
       <div style={{
-        borderRight: '1px solid rgba(232,130,154,0.3)',
-        borderBottom: '1px solid rgba(232,130,154,0.3)',
-        borderBottomRightRadius: '50%',
+        borderRight: '2px solid rgba(255,190,216,0.75)',
+        borderBottom: '2px solid rgba(255,190,216,0.75)',
+        borderBottomRightRadius: 18,
         bottom: 4,
-        height: 18,
+        height: 38,
         left: 0,
         position: 'absolute',
-        width: 18,
+        width: 76,
       }} />
-      {/* Art Nouveau corner — leaf curl right */}
       <div style={{
-        borderLeft: '1px solid rgba(232,130,154,0.3)',
-        borderBottom: '1px solid rgba(232,130,154,0.3)',
-        borderBottomLeftRadius: '50%',
+        borderLeft: '2px solid rgba(255,190,216,0.75)',
+        borderBottom: '2px solid rgba(255,190,216,0.75)',
+        borderBottomLeftRadius: 18,
         bottom: 4,
-        height: 18,
+        height: 38,
         position: 'absolute',
         right: 0,
-        width: 18,
+        width: 76,
       }} />
 
       {onBack && (
@@ -325,9 +327,9 @@ function PageHeader({ title, onBack, action }) {
           onClick={onBack}
           style={{
             background: 'none',
-            border: '1px solid rgba(232,130,154,0.5)',
+            border: '1px solid rgba(255,160,197,0.65)',
             borderRadius: 20,
-            color: '#F4B8C8',
+            color: '#d85a8b',
             cursor: 'pointer',
             fontSize: 16,
             lineHeight: 1,
@@ -336,16 +338,16 @@ function PageHeader({ title, onBack, action }) {
           }}
         >←</button>
       )}
-      <h1 style={{
-        color: '#F2FAF0',
+      <h1 className="page-title" style={{
+        color: '#ff6f9f',
         flex: 1,
         fontFamily: 'Georgia, serif',
-        fontSize: 19,
+        fontSize: 32,
         fontWeight: 'normal',
-        letterSpacing: '0.12em',
+        letterSpacing: '0.08em',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
-        textShadow: '0 1px 6px rgba(0,0,0,0.3)',
+        textShadow: '0 2px 10px rgba(255,120,170,0.22)',
         whiteSpace: 'nowrap',
       }}>{title}</h1>
       {action}
@@ -364,12 +366,12 @@ function TagFilterPill({ tag, active, onToggle }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         background: active
-          ? (hovered ? '#4E8A42' : '#6BA85F')
-          : (hovered ? 'rgba(107,168,95,0.12)' : '#F8FCF6'),
-        border: `1px solid ${active ? '#6BA85F' : 'rgba(107,168,95,0.45)'}`,
-        borderRadius: 14,
-        boxShadow: hovered ? '0 2px 6px rgba(107,168,95,0.25)' : 'none',
-        color: active ? '#fff' : '#2D5A27',
+          ? (hovered ? '#f36f9f' : '#ff8ab5')
+          : (hovered ? 'rgba(255,201,222,0.22)' : 'rgba(255,255,255,0.86)'),
+        border: `1px solid ${active ? '#ff8ab5' : 'rgba(255,179,210,0.72)'}`,
+        borderRadius: 20,
+        boxShadow: hovered ? '0 4px 12px rgba(255,128,174,0.18)' : 'none',
+        color: active ? '#fff' : '#c64f7d',
         cursor: 'pointer',
         fontFamily: 'Georgia, serif',
         fontSize: 12,
@@ -412,32 +414,25 @@ function WorkCard({ work, onClick, onDelete, delay }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         animationDelay: `${delay}ms`,
-        background: '#F8FCF6',
-        border: `1px solid ${hovered ? 'rgba(232,130,154,0.6)' : 'rgba(107,168,95,0.35)'}`,
-        borderRadius: 8,
+        background: 'linear-gradient(150deg, rgba(255,255,255,0.98), rgba(255,249,252,0.96))',
+        border: `1px solid ${hovered ? 'rgba(255,139,181,0.78)' : 'rgba(255,190,216,0.72)'}`,
+        borderRadius: 18,
         boxShadow: hovered
-          ? '3px 3px 18px rgba(45,90,39,0.14), inset 0 0 0 1px rgba(232,130,154,0.12)'
-          : '2px 2px 8px rgba(45,90,39,0.07)',
+          ? '0 14px 34px rgba(255,128,174,0.22), inset 0 0 0 1px rgba(255,232,241,0.9)'
+          : '0 8px 20px rgba(255,146,187,0.13), inset 0 0 0 1px rgba(255,232,241,0.75)',
         cursor: confirmingDelete ? 'default' : 'pointer',
         overflow: 'hidden',
-        padding: '16px 18px',
+        padding: '26px 28px 22px',
         position: 'relative',
         transform: hovered && !confirmingDelete ? 'translateY(-2px)' : 'none',
         transition: 'all 0.2s ease',
       }}
     >
-      {/* Corner lotus bud ornament */}
       {!confirmingDelete && (
-        <div style={{
-          position: 'absolute',
-          right: 8,
-          top: 8,
-          opacity: hovered ? 0.9 : 0.45,
-          transition: 'opacity 0.2s',
-          pointerEvents: 'none',
-        }}>
-          <LotusBud size={20} />
-        </div>
+        <>
+          <RibbonBow className="card-bow" />
+          <div className="card-roses"><LotusFlower size={132} /></div>
+        </>
       )}
 
       {/* delete button */}
@@ -449,7 +444,7 @@ function WorkCard({ work, onClick, onDelete, delay }) {
             background: 'none',
             border: 'none',
             borderRadius: '50%',
-            color: '#E8829A',
+            color: '#d85a8b',
             cursor: 'pointer',
             display: 'flex',
             fontSize: 15,
@@ -465,8 +460,8 @@ function WorkCard({ work, onClick, onDelete, delay }) {
             width: 22,
             zIndex: 2,
           }}
-          onMouseEnter={e => { e.currentTarget.style.opacity = 1; e.currentTarget.style.color = '#B05070' }}
-          onMouseLeave={e => { e.currentTarget.style.opacity = hovered ? '0.5' : '0'; e.currentTarget.style.color = '#E8829A' }}
+          onMouseEnter={e => { e.currentTarget.style.opacity = 1; e.currentTarget.style.color = '#b43f6e' }}
+          onMouseLeave={e => { e.currentTarget.style.opacity = hovered ? '0.5' : '0'; e.currentTarget.style.color = '#d85a8b' }}
           title="削除"
         >×</button>
       )}
@@ -475,8 +470,8 @@ function WorkCard({ work, onClick, onDelete, delay }) {
       {confirmingDelete && (
         <div style={{
           alignItems: 'center',
-          background: 'rgba(248,252,246,0.97)',
-          borderRadius: 8,
+          background: 'rgba(255,249,252,0.97)',
+          borderRadius: 18,
           bottom: 0,
           display: 'flex',
           flexDirection: 'column',
@@ -488,14 +483,14 @@ function WorkCard({ work, onClick, onDelete, delay }) {
           top: 0,
           zIndex: 10,
         }}>
-          <p style={{ color: '#2D5A27', fontFamily: 'Georgia, serif', fontSize: 13, margin: 0, textAlign: 'center' }}>
+          <p style={{ color: '#a84f70', fontFamily: 'Georgia, serif', fontSize: 13, margin: 0, textAlign: 'center' }}>
             この記録を削除しますか？
           </p>
           <div style={{ display: 'flex', gap: 8 }}>
             <button onClick={handleCancelDelete} style={S.cancelBtn}>キャンセル</button>
             <button
               onClick={handleConfirmDelete}
-              style={{ ...S.saveBtn, background: 'linear-gradient(135deg, #B05070, #8B3050)', borderColor: 'rgba(176,80,112,0.5)' }}
+              style={{ ...S.saveBtn, background: 'linear-gradient(135deg, #d85a8b, #b43f6e)', borderColor: 'rgba(216,90,139,0.5)' }}
             >削除する</button>
           </div>
         </div>
@@ -503,10 +498,10 @@ function WorkCard({ work, onClick, onDelete, delay }) {
 
       <div style={{ alignItems: 'flex-start', display: 'flex', gap: 8, marginBottom: 8 }}>
         <h2 style={{
-          color: '#2D5A27',
+          color: '#c64f7d',
           flex: 1,
           fontFamily: 'Georgia, serif',
-          fontSize: 15,
+          fontSize: 20,
           fontWeight: 'bold',
           lineHeight: 1.35,
           paddingRight: 20,
@@ -527,13 +522,13 @@ function WorkCard({ work, onClick, onDelete, delay }) {
         <p style={{
           WebkitBoxOrient: 'vertical',
           WebkitLineClamp: 2,
-          color: '#4E8A42',
+          color: '#b27a62',
           display: '-webkit-box',
           fontStyle: 'italic',
           fontSize: 12,
           lineHeight: 1.65,
           overflow: 'hidden',
-          marginBottom: tags.length ? 10 : 0,
+          marginBottom: tags.length ? 14 : 0,
         }}>"{work.impression}"</p>
       )}
 
@@ -543,12 +538,12 @@ function WorkCard({ work, onClick, onDelete, delay }) {
             <span key={tag} className="tag">{tag}</span>
           ))}
           {tags.length > 4 && (
-            <span style={{ color: '#6BA85F', fontSize: 11 }}>+{tags.length - 4}</span>
+            <span style={{ color: '#d85a8b', fontSize: 12 }}>+{tags.length - 4}</span>
           )}
         </div>
       )}
 
-      <div style={{ color: '#7ABD6E', fontSize: 10, marginTop: 10, opacity: 0.8 }}>
+      <div style={{ color: '#f06f9d', fontSize: 13, fontWeight: 700, marginTop: 14, opacity: 0.9 }}>
         {new Date(work.created_at).toLocaleDateString('ja-JP')}
       </div>
     </div>
@@ -612,18 +607,18 @@ function ListView({ onSelect, onAdd }) {
   const hiddenCount = allTags.length - TAG_COLLAPSE_LIMIT
 
   return (
-    <div style={{ background: '#F2FAF0', minHeight: '100vh' }}>
+    <div className="app-shell" style={{ background: 'linear-gradient(180deg, #fff 0%, #fff8fb 52%, #fff 100%)', minHeight: '100vh' }}>
       <PageHeader
-        title="🪷 鑑賞録"
+        title="鑑賞録"
         action={
           <div style={{ alignItems: 'flex-end', display: 'flex', flexDirection: 'column', gap: 4 }}>
             <button
               onClick={onAdd}
               style={{
-                background: 'rgba(232,130,154,0.2)',
-                border: '1px solid rgba(232,130,154,0.55)',
+                background: 'rgba(255,255,255,0.68)',
+                border: '1px solid rgba(255,160,197,0.72)',
                 borderRadius: 20,
-                color: '#F4E8EC',
+                color: '#c64f7d',
                 cursor: 'pointer',
                 fontFamily: 'Georgia, serif',
                 fontSize: 13,
@@ -633,7 +628,7 @@ function ListView({ onSelect, onAdd }) {
               }}
             >＋ 記録する</button>
             <span style={{
-              color: 'rgba(244,184,200,0.9)',
+              color: '#f06f9d',
               fontFamily: 'Georgia, serif',
               fontSize: 10,
               letterSpacing: '0.04em',
@@ -647,8 +642,8 @@ function ListView({ onSelect, onAdd }) {
 
       {/* Status filter */}
       <div style={{
-        background: '#F8FCF6',
-        borderBottom: '1px solid rgba(107,168,95,0.18)',
+        background: 'rgba(255,255,255,0.93)',
+        borderBottom: '1px solid rgba(255,190,216,0.52)',
         display: 'flex',
         gap: 6,
         overflowX: 'auto',
@@ -663,10 +658,10 @@ function ListView({ onSelect, onAdd }) {
               onClick={() => setFilterStatus(s)}
               style={{
                 alignItems: 'center',
-                background: active ? (c ? c.bg : 'rgba(107,168,95,0.14)') : 'transparent',
-                border: `1px solid ${active ? (c ? c.border : '#6BA85F') : 'rgba(107,168,95,0.3)'}`,
-                borderRadius: 12,
-                color: active ? (c ? c.text : '#2D5A27') : '#4E8A42',
+                background: active ? (c ? c.bg : 'rgba(255,232,241,0.78)') : 'transparent',
+                border: `1px solid ${active ? (c ? c.border : '#ff9fc4') : 'rgba(255,179,210,0.58)'}`,
+                borderRadius: 22,
+                color: active ? (c ? c.text : '#c64f7d') : '#a97886',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 fontFamily: 'Georgia, serif',
@@ -677,7 +672,7 @@ function ListView({ onSelect, onAdd }) {
                 whiteSpace: 'nowrap',
               }}
             >
-              {c && <span style={{ background: c.dot, borderRadius: '50%', display: 'inline-block', height: 6, width: 6 }} />}
+              {c && <span style={{ color: c.dot, display: 'inline-block', fontSize: 10, lineHeight: 1 }}>{c.mark || '●'}</span>}
               {s === 'all' ? 'すべて' : s}
             </button>
           )
@@ -686,8 +681,8 @@ function ListView({ onSelect, onAdd }) {
 
       {/* Type filter tabs */}
       <div style={{
-        background: '#F8FCF6',
-        borderBottom: '1px solid rgba(107,168,95,0.2)',
+        background: 'rgba(255,255,255,0.93)',
+        borderBottom: '1px solid rgba(255,190,216,0.52)',
         display: 'flex',
         gap: 0,
         overflowX: 'auto',
@@ -700,10 +695,10 @@ function ListView({ onSelect, onAdd }) {
               key={t}
               onClick={() => setFilter(t)}
               style={{
-                background: active ? 'rgba(107,168,95,0.1)' : 'none',
+                background: active ? 'rgba(255,232,241,0.5)' : 'none',
                 border: 'none',
-                borderBottom: active ? '2px solid #E8829A' : '2px solid transparent',
-                color: active ? '#2D5A27' : '#6BA85F',
+                borderBottom: active ? '3px solid #ff7fab' : '3px solid transparent',
+                color: active ? '#ff6f9f' : '#c66b8e',
                 cursor: 'pointer',
                 fontFamily: 'Georgia, serif',
                 fontSize: 12,
@@ -719,13 +714,13 @@ function ListView({ onSelect, onAdd }) {
       {/* Tag filter */}
       {allTags.length > 0 && (
         <div style={{
-          background: '#F8FCF6',
-          borderBottom: '1px solid rgba(107,168,95,0.15)',
+          background: 'rgba(255,255,255,0.86)',
+          borderBottom: '1px solid rgba(255,190,216,0.42)',
           padding: '10px 18px',
         }}>
           <div style={{ alignItems: 'center', display: 'flex', gap: 8, marginBottom: 8 }}>
             <LotusBud size={14} />
-            <span style={{ color: '#4E8A42', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+            <span style={{ color: '#c64f7d', fontSize: 15, letterSpacing: '0.12em' }}>
               タグ
             </span>
             {selectedTags.length > 0 && (
@@ -733,9 +728,9 @@ function ListView({ onSelect, onAdd }) {
                 onClick={() => setSelectedTags([])}
                 style={{
                   background: 'none',
-                  border: '1px solid rgba(107,168,95,0.4)',
+                  border: '1px solid rgba(255,179,210,0.68)',
                   borderRadius: 10,
-                  color: '#4E8A42',
+                  color: '#c64f7d',
                   cursor: 'pointer',
                   fontFamily: 'Georgia, serif',
                   fontSize: 10,
@@ -744,7 +739,7 @@ function ListView({ onSelect, onAdd }) {
               >× クリア</button>
             )}
             {selectedTags.length > 0 && (
-              <span style={{ color: '#6BA85F', fontFamily: 'Georgia, serif', fontStyle: 'italic', fontSize: 11 }}>
+              <span style={{ color: '#f06f9d', fontFamily: 'Georgia, serif', fontStyle: 'italic', fontSize: 11 }}>
                 {filtered.length} 件
               </span>
             )}
@@ -762,10 +757,10 @@ function ListView({ onSelect, onAdd }) {
               <button
                 onClick={() => setTagsExpanded(true)}
                 style={{
-                  background: '#F8FCF6',
-                  border: '1px solid rgba(107,168,95,0.45)',
-                  borderRadius: 14,
-                  color: '#4E8A42',
+                  background: 'rgba(255,255,255,0.86)',
+                  border: '1px solid rgba(255,179,210,0.72)',
+                  borderRadius: 20,
+                  color: '#c64f7d',
                   cursor: 'pointer',
                   fontFamily: 'Georgia, serif',
                   fontSize: 12,
@@ -778,10 +773,10 @@ function ListView({ onSelect, onAdd }) {
               <button
                 onClick={() => setTagsExpanded(false)}
                 style={{
-                  background: 'rgba(107,168,95,0.08)',
-                  border: '1px solid rgba(107,168,95,0.45)',
-                  borderRadius: 14,
-                  color: '#4E8A42',
+                  background: 'rgba(255,232,241,0.62)',
+                  border: '1px solid rgba(255,179,210,0.72)',
+                  borderRadius: 20,
+                  color: '#c64f7d',
                   cursor: 'pointer',
                   fontFamily: 'Georgia, serif',
                   fontSize: 12,
@@ -804,7 +799,7 @@ function ListView({ onSelect, onAdd }) {
         {error && (
           <div style={{
             background: '#FDF2F5',
-            border: '1px solid rgba(232,130,154,0.35)',
+            border: '1px solid rgba(255,179,210,0.55)',
             borderRadius: 6,
             color: '#B05070',
             fontSize: 13,
@@ -815,7 +810,7 @@ function ListView({ onSelect, onAdd }) {
         {!loading && !error && filtered.length === 0 && (
           <div style={{ padding: '64px 20px', textAlign: 'center' }}>
             <LotusFlower size={100} />
-            <p style={{ color: '#6BA85F', fontStyle: 'italic', marginTop: 16, opacity: 0.8 }}>
+            <p style={{ color: '#c64f7d', fontStyle: 'italic', marginTop: 16, opacity: 0.8 }}>
               {filterType === 'all' ? 'まだ記録がありません' : `${filterType}の記録がありません`}
             </p>
           </div>
@@ -884,18 +879,18 @@ function AddView({ onBack, onAdded }) {
 
   const fi = (hasErr) => ({
     ...S.fieldInput,
-    borderColor: hasErr ? '#E8829A' : 'rgba(107,168,95,0.45)',
+    borderColor: hasErr ? '#d85a8b' : 'rgba(255,182,212,0.72)',
   })
 
   return (
-    <div style={{ background: '#F2FAF0', minHeight: '100vh' }}>
-      <PageHeader title="🪷 新しい記録" onBack={onBack} />
+    <div className="app-shell" style={{ background: 'linear-gradient(180deg, #fff 0%, #fff8fb 58%, #fff 100%)', minHeight: '100vh' }}>
+      <PageHeader title="新しい記録" onBack={onBack} />
       <form onSubmit={handleSubmit} style={{ margin: '0 auto', maxWidth: 620, padding: '24px 16px' }}>
 
         <div style={{ ...S.sectionCard }}>
           <div style={{ alignItems: 'center', display: 'flex', gap: 8, marginBottom: 16 }}>
             <LotusBud size={16} />
-            <span style={{ color: '#4E8A42', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+            <span style={{ color: '#c64f7d', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
               基本情報
             </span>
           </div>
@@ -981,7 +976,7 @@ function AddView({ onBack, onAdded }) {
             type="submit"
             disabled={saving}
             style={{ ...S.saveBtn, opacity: saving ? 0.7 : 1 }}
-          >{saving ? '保存中...' : '🪷 記録を保存'}</button>
+          >{saving ? '保存中...' : '記録を保存'}</button>
         </div>
       </form>
     </div>
@@ -1046,9 +1041,9 @@ function DetailView({ work, onBack }) {
     : []
 
   return (
-    <div style={{ background: '#F2FAF0', minHeight: '100vh' }}>
+    <div className="app-shell" style={{ background: 'linear-gradient(180deg, #fff 0%, #fff8fb 58%, #fff 100%)', minHeight: '100vh' }}>
       <PageHeader
-        title={`🪷 ${form.title || work.title}`}
+        title={form.title || work.title}
         onBack={onBack}
         action={
           <button
@@ -1059,7 +1054,7 @@ function DetailView({ work, onBack }) {
               fontSize: 13,
               opacity: saving ? 0.75 : 1,
               background: saveState === 'saved'
-                ? 'linear-gradient(135deg, #5A9A4E, #3A6E30)'
+                ? 'linear-gradient(135deg, #ff9fc4, #f06f9d)'
                 : S.saveBtn.background,
             }}
           >{savedLabel}</button>
@@ -1071,8 +1066,8 @@ function DetailView({ work, onBack }) {
         {/* Hero card */}
         <div style={{
           ...S.sectionCard,
-          background: 'linear-gradient(150deg, #F8FCF6 0%, #EEF8EA 100%)',
-          borderColor: 'rgba(232,130,154,0.35)',
+          background: 'linear-gradient(150deg, rgba(255,255,255,0.98) 0%, rgba(255,247,251,0.96) 100%)',
+          borderColor: 'rgba(255,179,210,0.55)',
         }}>
           <div style={{ alignItems: 'flex-start', display: 'flex', gap: 16 }}>
             <div style={{ flexShrink: 0 }}>
@@ -1082,7 +1077,7 @@ function DetailView({ work, onBack }) {
               <div style={{ alignItems: 'center', display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
                 {form.type && <TypeBadge type={form.type} />}
                 <StatusBadge status={form.status} />
-                <span style={{ color: '#7ABD6E', fontSize: 11 }}>
+                <span style={{ color: '#f06f9d', fontSize: 11 }}>
                   {new Date(work.created_at).toLocaleDateString('ja-JP')}
                 </span>
               </div>
@@ -1095,7 +1090,7 @@ function DetailView({ work, onBack }) {
             style={{
               background: 'none',
               border: 'none',
-              color: '#4E8A42',
+              color: '#c64f7d',
               cursor: 'pointer',
               fontSize: 11,
               letterSpacing: '0.08em',
@@ -1107,7 +1102,7 @@ function DetailView({ work, onBack }) {
           >{showEdit ? '▲ 基本情報を閉じる' : '▼ 基本情報を編集'}</button>
 
           {showEdit ? (
-            <div style={{ borderTop: '1px solid rgba(107,168,95,0.25)', marginTop: 10, paddingTop: 14 }}>
+            <div style={{ borderTop: '1px solid rgba(255,179,210,0.35)', marginTop: 10, paddingTop: 14 }}>
               <Field label="タイトル">
                 <input value={form.title} onChange={e => set('title', e.target.value)} style={fi} />
               </Field>
@@ -1138,8 +1133,8 @@ function DetailView({ work, onBack }) {
             <div style={{ marginTop: 14 }}>
               {form.impression && (
                 <p style={{
-                  borderLeft: '2px solid rgba(232,130,154,0.45)',
-                  color: '#3D6E35',
+                  borderLeft: '2px solid rgba(255,160,197,0.58)',
+                  color: '#a86478',
                   fontStyle: 'italic',
                   fontSize: 14,
                   lineHeight: 1.8,
@@ -1164,7 +1159,7 @@ function DetailView({ work, onBack }) {
         <div style={S.sectionCard}>
           <div style={{ alignItems: 'center', display: 'flex', gap: 8, marginBottom: 16 }}>
             <LotusBud size={16} />
-            <span style={{ color: '#4E8A42', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+            <span style={{ color: '#c64f7d', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
               分析・考察
             </span>
           </div>
@@ -1197,8 +1192,8 @@ function DetailView({ work, onBack }) {
 
         {/* Sticky save bar */}
         <div style={{
-          background: 'rgba(242,250,240,0.95)',
-          borderTop: '1px solid rgba(107,168,95,0.25)',
+          background: 'rgba(255,249,252,0.95)',
+          borderTop: '1px solid rgba(255,179,210,0.35)',
           bottom: 0,
           display: 'flex',
           justifyContent: 'flex-end',
@@ -1212,7 +1207,7 @@ function DetailView({ work, onBack }) {
               ...S.saveBtn,
               opacity: saving ? 0.75 : 1,
               background: saveState === 'saved'
-                ? 'linear-gradient(135deg, #5A9A4E, #3A6E30)'
+                ? 'linear-gradient(135deg, #ff9fc4, #f06f9d)'
                 : S.saveBtn.background,
             }}
           >{savedLabel}</button>
