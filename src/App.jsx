@@ -6,7 +6,7 @@ import './App.css'
 
 const TABLE = 'kudo_ren_works'
 
-const TYPES = ['小説', '漫画', 'Webtoon', 'アニメ', '映画', 'その他']
+const TYPES = ['小説', '漫画', 'Webtoon', 'アニメ', '映画', 'ドラマ', 'その他']
 
 const STATUSES = ['気になる', '鑑賞中', '鑑賞済']
 
